@@ -61,7 +61,7 @@ This app is deployed on Render, and the live URL is:
 https://todo-reminder-app-6343.onrender.com
 
 ### Running Tests
-To run tests, save the test_app.py file in your pc.
+To run tests, save the test_app.py file in your pc. Make sure your have 'pytest' dependency installed. 
 In cmd, navigate to the location of the file, and then use follwoing command:
  ```bash
     pytest test_app.py
