@@ -25,26 +25,28 @@ def test_get_tasks():
 
 
 # Test: Update a task
-def test_update_task():
+def test_update_task(client):
     # Add a task first and get the task ID dynamically
-    response = requests.post(f'{BASE_URL}/tasks', json={'title': 'Old Title', 'description': 'Old description'})
-    task_id = response.json()['id']  # Get the dynamically assigned task ID
+    response = client.post('/tasks', json={'title': 'Old Title', 'description': 'Old description'})
+    task_id = response.json['id']  # Get the dynamically assigned task ID
+    
     # Now use this task ID for the update
-    response = requests.put(f'{BASE_URL}/tasks/{task_id}', json={'title': 'Updated Title', 'description': 'Updated description'})
+    response = client.put(f'/tasks/{task_id}', json={'title': 'Updated Title', 'description': 'Updated description'})
     assert response.status_code == 200
-    assert response.json()['title'] == 'Updated Title'
-
+    assert response.json['title'] == 'Updated Title'
 
 
 # Test: Delete a task
-def test_delete_task():
+def test_delete_task(client):
     # Add a task first and get the task ID dynamically
-    response = requests.post(f'{BASE_URL}/tasks', json={'title': 'Delete Task', 'description': 'Task to delete'})
-    task_id = response.json()['id']  # Get the dynamically assigned task ID
+    response = client.post('/tasks', json={'title': 'Delete Task', 'description': 'Task to delete'})
+    task_id = response.json['id']  # Get the dynamically assigned task ID
+    
     # Now use this task ID for the delete request
-    response = requests.delete(f'{BASE_URL}/tasks/{task_id}')
+    response = client.delete(f'/tasks/{task_id}')
     assert response.status_code == 200
-    assert response.json()['message'] == 'Task deleted successfully'
+    assert response.json['message'] == 'Task deleted successfully'
+
 
 
 # Test: Delete all tasks
