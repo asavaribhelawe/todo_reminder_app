@@ -65,4 +65,4 @@ To run tests, save the test_app.py file in your pc.
 In cmd, navigate to the location of the file, and then use follwoing command:
  ```bash
     pytest test_app.py
-    ```
+ ```
