@@ -28,17 +28,14 @@ def test_get_tasks():
     requests.post(f'{BASE_URL}/tasks', json={'title': 'Test Task 2', 'description': 'Second test task'})
     response = requests.get(f'{BASE_URL}/tasks')
     assert response.status_code == 200
-    assert len(response.json()) >= 2  # Ensure we have at least 2 tasks
+    assert len(response.json()) >= 2  
 
 
-# Test: Update a task
 # Test: Update a task
 def test_update_task():
     # Add a task first and get the task ID dynamically
     response = requests.post(f'{BASE_URL}/tasks', json={'title': 'Old Title', 'description': 'Old description'})
-    task_id = response.json()['id']  # Get the dynamically assigned task ID
-    
-    # Now use this task ID for the update
+    task_id = response.json()['id']
     response = requests.put(f'{BASE_URL}/tasks/{task_id}', json={'title': 'Updated Title', 'description': 'Updated description'})
     assert response.status_code == 200
     assert response.json()['title'] == 'Updated Title'
@@ -48,9 +45,7 @@ def test_update_task():
 def test_delete_task():
     # Add a task first and get the task ID dynamically
     response = requests.post(f'{BASE_URL}/tasks', json={'title': 'Delete Task', 'description': 'Task to delete'})
-    task_id = response.json()['id']  # Get the dynamically assigned task ID
-    
-    # Now use this task ID for the delete request
+    task_id = response.json()['id']
     response = requests.delete(f'{BASE_URL}/tasks/{task_id}')
     assert response.status_code == 200
     assert response.json()['message'] == 'Task deleted successfully'
@@ -91,7 +86,7 @@ def test_delete_task_invalid_id():
 
 # Test: Invalid JSON data when adding a task
 def test_add_task_invalid_json():
-    response = requests.post(f'{BASE_URL}/tasks', json={'title': '', 'description': ''})  # Invalid empty task data
+    response = requests.post(f'{BASE_URL}/tasks', json={'title': '', 'description': ''})
     assert response.status_code == 400
     assert 'error' in response.json()
     assert response.json()['error'] == 'Title is required'
@@ -99,17 +94,12 @@ def test_add_task_invalid_json():
 
 # Test: Attempt to delete a task that has already been deleted
 def test_delete_task_already_deleted():
-    # First, create the task
     response = requests.post(f'{BASE_URL}/tasks', json={'title': 'Task to Delete', 'description': 'Delete this task'})
-    task_id = response.json()['id']  # Dynamically get the task ID
-    
-    # Delete the task
+    task_id = response.json()['id']
     response = requests.delete(f'{BASE_URL}/tasks/{task_id}')
-    assert response.status_code == 200  # First delete, should succeed
+    assert response.status_code == 200
     assert response.json()['message'] == 'Task deleted successfully'
-    
-    # Attempt to delete the same task again, should return 404
     response = requests.delete(f'{BASE_URL}/tasks/{task_id}')  # Trying to delete it again
-    assert response.status_code == 404  # Task no longer exists, so 404 is expected
+    assert response.status_code == 404
     assert 'error' in response.json()
     assert response.json()['error'] == 'Task not found'
