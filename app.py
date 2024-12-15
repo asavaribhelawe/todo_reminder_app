@@ -1,9 +1,8 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 from models import db
 from config import Config
 import routes
 from routes import add_task, get_tasks, update_task, delete_task, delete_all_tasks
-
 
 # Initialize the app
 app = Flask(__name__)
@@ -13,10 +12,9 @@ app.config.from_object(Config)
 db.init_app(app)
 
 # Define routes
-app.add_url_rule('/', 'home', lambda: jsonify({
-    "message": "Welcome to the To-Do Reminder App!",
-    "instructions": "Use /tasks endpoint to interact with tasks."
-}))
+@app.route('/')
+def home():
+    return render_template('index.html')  # Renders the frontend HTML page
 
 app.add_url_rule('/tasks', 'add_task', routes.add_task, methods=['POST'])
 app.add_url_rule('/tasks', 'get_tasks', routes.get_tasks, methods=['GET'])
