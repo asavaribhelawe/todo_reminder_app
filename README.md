@@ -59,6 +59,7 @@ A simple To-Do Reminder App built using Flask, Python, and PostgreSQL. This app 
 ### Deployment
 This app is deployed on Render, and the live URL is:
 https://todo-reminder-app-6343.onrender.com
+The application is deployed using free instance that will spin down with inactivity, which can delay requests by 50 seconds or more.
 
 ### Running Tests
 To run tests, save the test_app.py file in your pc. Make sure your have 'pytest' dependency installed. 
